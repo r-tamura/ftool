@@ -4,6 +4,15 @@ from ftool import (
   prop, cond, defaultto,
 )
 
+
+lift = lambda v: Functor(v)
+class Functor():
+  def __init__(self, v):
+    self._v = v
+
+  def fmap(self, f):
+    return lift(f(self._v))
+
 """
 Function
 """
@@ -47,6 +56,7 @@ Iterator
 """
 def test_map():
   assert map(lambda x: x)([1, 2, 3]) == [1, 2, 3]
+  assert map(lambda x: x * 3)(lift(14))._v == 42
 
 def test_flatten():
   assert flatten([[1, 2], [3, 4]]) == [1, 2, 3, 4]

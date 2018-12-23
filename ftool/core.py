@@ -111,7 +111,18 @@ def map(f, xs):
   >>> addOne = lambda x: x + 1
   >>> map(addOne, [1, 2, 3, 4])
   [2, 3, 4, 5]
+
+  >>> class Functor():
+  >>>   def __init__(v):
+  >>>     self.v = v
+  >>>   def fmap(self, f):
+  >>>     return Functor(f(self.v))
+  >>> map(lambda x: x * 3)(Functor(14)).v
+  42
   """
+
+  if hasattr(xs, "fmap"):
+    return xs.fmap(f)
   return list(builtins.map(f, xs))
 
 @curry
