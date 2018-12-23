@@ -29,7 +29,7 @@ class Left(Either):
   def isright(self):
     return False
 
-  def map(self, f):
+  def fmap(self, f):
     return self
 
   def inspect(self) -> str:
@@ -44,7 +44,7 @@ class Right(Either):
   def isright(self) -> bool:
     return True
 
-  def map(self, f):
+  def fmap(self, f):
     return Either.of(f(self._value))
 
   def inspect(self) -> str:

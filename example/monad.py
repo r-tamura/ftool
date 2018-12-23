@@ -1,8 +1,6 @@
+import math
 import random
 import ftool as F
-
-def map(f):
-  return lambda x: x.map(f)
 
 # class Container(object):
 #   def __init__(self, v):
@@ -19,21 +17,32 @@ if __name__ == "__main__":
   # Maybe
   print(F.inspect(F.Maybe.of(3)))
   print(F.inspect(F.Maybe.of(None)))
-  print(F.inspect(F.Maybe.of("John").map(lambda s: "Hello, " + s)))
-  print(F.inspect(F.Maybe.of("John").map(lambda s: None)))
+  print(F.inspect(F.Maybe.of("John").fmap(lambda s: "Hello, " + s)))
+  print(F.inspect(F.Maybe.of("John").fmap(lambda s: None)))
 
   # Either
-  print(F.inspect(F.Either.of("rain").map(lambda s: f"b{s}")))
+  print(F.inspect(F.Either.of("rain").fmap(lambda s: f"b{s}")))
 
-  def randome_error():
+  def random_error():
     return F.Either.of("ok") if random.random() > 0.5 else F.left("fail")
   F.compose(
     print,
     F.either(F.identity, F.identity),
-    map(lambda s: f"{s}!!"),
-    randome_error,
+    F.map(lambda s: f"{s}!!"),
+    random_error,
   )()
 
   # IO
+  r = lambda: F.IO.of(random.random())
+
+
+  print(F.compose(
+    F.map(lambda s: f"{s} %"),
+    F.map(lambda n: str(n)),
+    F.map(lambda x: math.floor(x * 100)),
+    r,
+  )().unsafe_perform_io())
+
+
 
 

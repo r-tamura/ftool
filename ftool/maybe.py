@@ -14,7 +14,7 @@ class Maybe(object):
   def isnothing(self):
     return self._value is None
 
-  def map(self, f):
+  def fmap(self, f):
     return self if self.isnothing else self.__class__.of(f(self._value))
 
   def inspect(self):
