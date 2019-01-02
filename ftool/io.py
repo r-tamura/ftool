@@ -10,14 +10,25 @@ class IO():
   https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch08.html#old-mcdonald-had-effects
   """
   def __init__(self, io):
-    self.unsafe_perform_io = io
+    self._io = io
 
-  @classmethod
-  def of(cls, v):
-    return cls(lambda: v)
+  @staticmethod
+  def of(v):
+    return IO(lambda: v)
 
+  # Functor IO
   def fmap(self, f):
-    return IO(compose(f, self.unsafe_perform_io))
+    return IO(compose(f, self._io))
+
+  # Monad IO
+  def join(self):
+    return IO.of(self.run().run())
+
+  def chain(self, f):
+    return self.fmap(f).join()
 
   def inspect(self):
-    return f"IO({inspect(self.unsafe_perform_io)})"
+    return f"IO({inspect(self._io)})"
+
+  def run(self):
+    return self._io()
