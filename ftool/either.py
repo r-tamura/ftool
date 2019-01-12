@@ -1,4 +1,4 @@
-from . import curry, inspect
+from . import curry, identity, inspect
 #from .util import inspect
 
 __all__ = ("Either", "left", "either")
@@ -35,6 +35,18 @@ class Left(Either):
   def inspect(self) -> str:
     return f"Left({inspect(self._value)})"
 
+  def join(self):
+    return self
+
+  def chain(self, f):
+    return self
+
+  def sequence(self, of):
+    return of(self)
+
+  def traverse(self, of, f):
+    return of(self)
+
 class Right(Either):
   @property
   def isleft(self) -> bool:
@@ -49,3 +61,15 @@ class Right(Either):
 
   def inspect(self) -> str:
     return f"Right({inspect(self._value)})"
+
+  def join(self):
+    return self._value
+
+  def chain(self, f):
+    return f(self._value)
+
+  def sequence(self, of):
+    return self.traverse(of, identity)
+
+  def traverse(self, of, f):
+    return f(self._value).fmap(Either.of)

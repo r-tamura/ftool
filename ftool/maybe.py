@@ -15,11 +15,11 @@ class Maybe():
     return Just.of(v) if v is not None else Nothing.of(v)
 
   @property
-  def isnothing():
+  def isnothing(self):
     pass
 
   @property
-  def isjust():
+  def isjust(self):
     pass
 
   def fmap(self, f):
