@@ -6,7 +6,7 @@ __all__ = (
   "T", "F", "identity", "always", "alternation", "tap", "fork",
   "reduce", "map", "filter", "take", "flatten", "flatmap", "groupby",
   "includes", "pluck",
-  "prop",
+  "prop", "propeq",
   "cond", "defaultto",
 )
 
@@ -211,7 +211,9 @@ def prop(name, o):
   >>> get_name(a)
   'John'
   """
-  return o[name]
+  if isinstance(o, dict):
+    return o[name]
+  return getattr(o, name, None)
 
 """
 Logic
@@ -243,6 +245,13 @@ def cond(pairs):
 @curry
 def defaultto(default, x):
   return x if x else default
+
+@curry
+def propeq(key, expected, o):
+  """objectの属性またはdictのキーに対する値が指定された値と等しいかを検証します。
+  """
+  print(prop(key, o), o.p1, expected)
+  return prop(key, o) == expected
 
 """
 Heigher level function

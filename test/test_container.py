@@ -19,7 +19,7 @@ def test_chain():
   assert Container.of(21).fmap(lambda x: x * 2).join() == 42
 
 def test_sequence():
-  pass
+  assert Container.of(Either.of(42)).sequence(None).join().join() == 42
 
 def test_traverse():
   assert Container.of(42).traverse(None, Either.of).join().join() == 42

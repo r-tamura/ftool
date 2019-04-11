@@ -1,7 +1,7 @@
 from ftool import (
   compose, pipe, curry, T, F, identity, always, alternation, fork,
   map, groupby, flatten, flatmap, pluck, includes,
-  prop, cond, defaultto,
+  prop, propeq, cond, defaultto,
 )
 
 
@@ -101,6 +101,15 @@ def test_includes():
   is_in_name = includes(["John", "Alice", "Eve", "Bob"])
   assert is_in_name("Eve")
   assert not is_in_name("Daniel")
+
+def test_propeq():
+  class A():
+    def __init__(self):
+      self.p1 = 42
+      self.p2 = "a"
+  assert propeq("p1", 42, A())
+  assert propeq("p2", "a", A())
+  assert propeq("p3", None, A())
 
 """
 Logic
