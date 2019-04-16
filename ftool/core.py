@@ -6,7 +6,7 @@ __all__ = (
   "T", "F", "identity", "always", "alternation", "tap", "fork",
   "reduce", "map", "filter", "take", "flatten", "flatmap", "groupby",
   "includes", "pluck",
-  "prop", "propeq",
+  "prop", "propeq", "propis",
   "cond", "defaultto",
 )
 
@@ -248,10 +248,15 @@ def defaultto(default, x):
 
 @curry
 def propeq(key, expected, o):
-  """objectの属性またはdictのキーに対する値が指定された値と等しいかを検証します。
+  """objectの属性またはdictのキーに対する値が指定された値と等しいかを検証します
   """
-  print(prop(key, o), o.p1, expected)
   return prop(key, o) == expected
+
+@curry
+def propis(key, expected, o):
+  """objectの属性またはdictのキーに対する値が一致するかを検証します
+  """
+  return prop(key, o) is expected
 
 """
 Heigher level function

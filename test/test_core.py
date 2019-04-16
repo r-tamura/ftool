@@ -1,7 +1,7 @@
 from ftool import (
   compose, pipe, curry, T, F, identity, always, alternation, fork,
   map, groupby, flatten, flatmap, pluck, includes,
-  prop, propeq, cond, defaultto,
+  prop, propeq, propis, cond, defaultto,
 )
 
 
@@ -110,6 +110,15 @@ def test_propeq():
   assert propeq("p1", 42, A())
   assert propeq("p2", "a", A())
   assert propeq("p3", None, A())
+
+def test_propis():
+  class A():
+    def __init__(self, value):
+      self.p1 = [1]
+      self.p2 = value
+  v = [1]
+  assert not propis("p1", v, A(v))
+  assert propis("p2", v, A(v))
 
 """
 Logic
