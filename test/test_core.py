@@ -1,7 +1,7 @@
 from ftool import (
-  compose, pipe, curry, T, F, identity, always, alternation, fork,
+  compose, pipe, T, F, identity, always, alternation, fork,
   map, groupby, flatten, flatmap, pluck, includes,
-  prop, propeq, propis, cond, defaultto,
+  propeq, propis, cond, defaultto,
 )
 
 
@@ -25,14 +25,6 @@ def test_pipe_simple():
   add = lambda x, y: x + y
   mul2 = lambda x: x * 2
   assert pipe(add, mul2)(1, 2) == 6
-
-def test_curry():
-  add = curry(lambda x, y: x + y)
-  mul = curry(lambda x, y: x * y)
-  add3 = add(3)
-  mul6 = mul(6)
-  assert add3(39) == 42
-  assert mul6(7) == 42
 
 def test_t():
   assert T()

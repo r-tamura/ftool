@@ -1,28 +1,16 @@
 import builtins
 import functools
-
+from .functional import *
 __all__ = (
   "curry", "compose", "pipe",
   "T", "F", "identity", "always", "alternation", "tap", "fork",
   "reduce", "map", "filter", "take", "flatten", "flatmap", "groupby",
   "includes", "pluck",
-  "prop", "propeq", "propis",
+  "prop", "propeq", "propis", "has",
   "cond", "defaultto",
 )
 
 # Function
-def curry(f, wargs=[], wkwargs={}):
-  @functools.wraps(f)
-  def wrapper(*nargs, **nkwargs):
-    args = wargs + list(nargs)
-    kwargs = {**nkwargs, **nkwargs}
-    arity = f.__code__.co_argcount
-    if len(args) + len(kwargs) >= arity:
-      return f(*args, **kwargs)
-    return curry(f, args)
-  return wrapper
-
-
 def _compose2(f, g):
   return lambda *args: f(g(*args))
 
@@ -203,17 +191,7 @@ def groupby(key, xs):
 """
 Dict
 """
-@curry
-def prop(name, o):
-  """
-  >>> get_name = prop("name")
-  >>> a = {"prop1": "value1", "name": "John"}
-  >>> get_name(a)
-  'John'
-  """
-  if isinstance(o, dict):
-    return o[name]
-  return getattr(o, name, None)
+
 
 """
 Logic
@@ -259,7 +237,7 @@ def propis(key, expected, o):
   return prop(key, o) is expected
 
 """
-Heigher level function
+High level function
 """
 @tap
 def log(x: str):
